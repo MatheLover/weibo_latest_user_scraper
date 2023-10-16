@@ -124,11 +124,11 @@ class WeiboUserScrapy():
         try:
             if selector.xpath("//input[@name='mp']") == []:
                 page_num = 1
-                logging.warning(self.user_id+ ' Index ' + self.index + ' : '+ str(page_num)+' Pages')
+                logging.warning(self.user_id+ ' Index ' + str(self.index) + ' : '+ str(page_num)+' Pages')
             else:
                 page_num = (int)(
                     selector.xpath("//input[@name='mp']")[0].attrib['value'])
-                logging.warning(self.user_id+ ': '+ str(page_num)+' Pages')
+                logging.warning(self.user_id+ ' Index ' + str(self.index) + ' : '+ str(page_num)+' Pages')
 
             # if the scraper cannot get a page, that means it is blocked
             # usually, even users without posts still have one page
@@ -148,7 +148,6 @@ class WeiboUserScrapy():
             self.get_user_info(selector)  # 获取用户昵称、微博数、关注数、粉丝数
             page_num = self.get_page_num(selector)  # 获取微博总页数
             self.total_page_num = page_num
-            logging.warning(self.user_id + ': ' + str(page_num) )
 
             # check whether 她还没发过微博.
             if len(selector.xpath('/html/body/div[7]/text()')) != 0:
@@ -197,7 +196,7 @@ if __name__ == '__main__':
 
 
     # id_list
-    for i in range(2):
+    for i in range(len(id_list)):
         WeiboUserScrapy(user_id=id_list[i], filter=0, download_img=False,index=i)
 
         sleep(10)
