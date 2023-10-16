@@ -32,7 +32,7 @@ class WeiboUserScrapy():
     IMG_LINK_SEP = ' '
     IMG_SAVE_ROOT = 'img'
 
-    def __init__(self, user_id, filter=0, download_img=False):
+    def __init__(self, user_id,index, filter=0, download_img=False):
         global headers
         self.headers = {
             'Cookie': Cookie,
@@ -51,8 +51,11 @@ class WeiboUserScrapy():
         self.following = 0  # 用户关注数
         self.followers = 0  # 用户粉丝数
         self.weibo = []  # 存储爬取到的所有微博信息
+
         self.has_weibo = True
         self.total_page_num = None
+        self.index = index
+
         if not os.path.exists('user'):
             os.mkdir('user')
         if not os.path.exists(self.IMG_SAVE_ROOT):
@@ -121,7 +124,7 @@ class WeiboUserScrapy():
         try:
             if selector.xpath("//input[@name='mp']") == []:
                 page_num = 1
-                logging.warning(self.user_id+ ': '+ str(page_num)+' Pages')
+                logging.warning(self.user_id+ ' Index ' + self.index + ' : '+ str(page_num)+' Pages')
             else:
                 page_num = (int)(
                     selector.xpath("//input[@name='mp']")[0].attrib['value'])
@@ -194,7 +197,7 @@ if __name__ == '__main__':
 
 
     # id_list
-    for i in range(len (id_list)):
-        WeiboUserScrapy(user_id=id_list[i], filter=0, download_img=False)
+    for i in range(2):
+        WeiboUserScrapy(user_id=id_list[i], filter=0, download_img=False,index=i)
 
         sleep(10)
